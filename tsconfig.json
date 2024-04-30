@@ -1,0 +1,76 @@
+{
+  "compilerOptions": {
+
+  "jsx": "preserve",
+  "sourceMap": true,
+  "resolveJsonModule": true,
+  "lib": ["esnext", "dom"],
+    "baseUrl": "./",
+    "target": "esnext",
+    "useDefineForClassFields": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "isolatedModules": true,
+    "strict": true,
+   
+    "jsxFactory": "h",
+    "jsxFragmentFactory": "Fragment",
+   
+
+    "esModuleInterop": true,
+    "paths": {
+      "@/*": [
+        "src/*"
+      ],
+      "~config":["./app.config.ts"],
+      "@themeConfig": [
+        "themeConfig.ts"
+      ],
+      "@layouts/*": [
+        "src/@layouts/*"
+      ],
+      "@layouts": [
+        "src/@layouts"
+      ],
+      "@core/*": [
+        "src/@core/*"
+      ],
+      "@core": [
+        "src/@core"
+      ],
+      "@images/*": [
+        "src/assets/images/*"
+      ],
+      "@styles/*": [
+        "src/styles/*"
+      ],
+      "@axios": [
+        "src/plugins/axios"
+      ],
+      "@validators": [
+        "src/@core/utils/validators"
+      ]
+    },
+   
+    "skipLibCheck": true,
+    "types": [
+      "vite/client",
+      "vite-plugin-pages/client",
+      "vite-plugin-vue-layouts/client"
+    ]
+  },
+  "include": [
+    "vite.config.*",
+    "env.d.ts",
+    "shims.d.ts",
+    "src/**/*",
+    "src/**/*.vue",
+    "src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx",
+    "themeConfig.ts"
+  ],
+  "exclude": [
+    "dist",
+    "node_modules",
+    "src/@iconify/*"
+  ]
+}

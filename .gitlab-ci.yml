@@ -1,0 +1,10 @@
+stages:
+  - deploy
+
+deploy:
+  stage: deploy
+  script:
+    - ssh root@204.93.172.132 "cd /var/www/selfcare-provier-web && git clone https://gitlab.com/self-care/selfcare-provider-web"
+ 
+  only:
+    - main
