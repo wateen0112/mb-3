@@ -72,7 +72,7 @@ v-model="showDialog"
 @close ="()=>{
     router.push('../../../content-management/cart')
  }"
-status="success" content="تم الأضافة للسلة بنجاح" />
+status="success" content="تم الإضافة للسلة بنجاح" />
 <AllOrdersLayout
 title="العينات  المسلمة  - تفاصيل المادة "
 :search="false"

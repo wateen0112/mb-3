@@ -25,7 +25,7 @@ const deficient_list= async(trade_name:String , amount:number)=>{
     const get_material_by_id= async(id:number )=>{
         try {
             const res = await GET<MaterialDto>(MATERIALS_API.material_search,
-                {id:id}
+                {material_id:id}
             )
          
      material.value = res.data.data[0]

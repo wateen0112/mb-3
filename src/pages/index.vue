@@ -109,8 +109,9 @@ loading.value=false;
 } catch (error) {
 
   loading.value=false;
-
-  
+localStorage.clear();
+router.push('login')
+    
 throw(error)
 }
 

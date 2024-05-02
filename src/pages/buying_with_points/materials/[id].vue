@@ -30,10 +30,10 @@ const {singleOnlineMarketResponse,office} = storeToRefs(homeStore)
 const options = route.query.options??false;
 const {filtered_deficient_list_dto,filterDto,material}  = storeToRefs(store);
 const {getFileUrl} = useFile()
-const showDialog = ref(false )
+
 const router = useRouter()
 const orderStore = OrderStore();
-const{addToCartDto   } = storeToRefs(orderStore)
+const{addToCartDto  ,showSuccessDialog,showCartErrorDialog } = storeToRefs(orderStore)
 onMounted(async()=>{
 try {
   
@@ -60,7 +60,7 @@ const addToCart = async()=>{
     
 await  orderStore.add_to_cart();
         addToCartLoading.value  = false  ;
-    showDialog.value = true    
+    showSuccessDialog.value = true    
     } catch (error) {
         addToCartLoading.value  = false  ;
        throw(error) 
@@ -72,11 +72,11 @@ await  orderStore.add_to_cart();
     <!-- {{ material }} -->
 <CustomDialog  
 
-v-model="showDialog"
+v-model="showSuccessDialog"
 @close ="()=>{
     router.push('../../../content-management/cart')
  }"
-status="success" content="تم الأضافة للسلة بنجاح" />
+status="success" content="تم الإضافة للسلة بنجاح" />
 <AllOrdersLayout
 title="تفاصيل المادة"
 :search="false"

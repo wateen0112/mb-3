@@ -79,3 +79,11 @@ transform: scale(.8);
 .rounded{
     border-radius: 20px !important;
 }
+
+ .my-flex {
+    display: flex;
+    gap: 8px;
+    justify-items: start;
+    flex-direction: row;
+    flex-wrap: wrap;
+ }

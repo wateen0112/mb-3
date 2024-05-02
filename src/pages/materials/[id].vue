@@ -53,7 +53,10 @@ const addToCart = async()=>{
     try {
         addToCartLoading.value  = true  ;
         addToCartDto.value.material_id =material.value.id 
-        addToCartDto.value.qty =qty.value 
+        addToCartDto.value.qty =qty.value
+        addToCartDto.value.supplier_type=material.value.supplier_type
+        addToCartDto.value.owner_id=material.value.supplier_type=='online_market'? material.value.online_market_id :'store'?material.value.store_id :material.value.office_id
+        
     
 await  orderStore.add_to_cart();
         addToCartLoading.value  = false  ;
@@ -73,7 +76,7 @@ v-model="showDialog"
 @close ="()=>{
     router.push('../../../content-management/cart')
  }"
-status="success" content="تم الأضافة للسلة بنجاح" />
+status="success" content="تم الإضافة للسلة بنجاح" />
 <AllOrdersLayout
 title="تفاصيل المادة"
 :search="false"
@@ -87,6 +90,7 @@ class=" relative w-full pb-12 bg-secondary rounded-lg  min-h-[100px]  overflow-h
     <div class="p-5  flex justify-between items-start">
 <!-- container  1-->
     <div >
+
 <div class="flex justify-start items-start gap-3">
 <img   class="w-8" :src="ShopIcon" />
 <p>اسم المتجر :{{ singleOnlineMarketResponse.market.name }}</p>

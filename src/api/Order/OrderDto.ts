@@ -2,7 +2,9 @@ import { Pagination } from "../Ads/AddsDto";
 
 export  class AddToCartRequestDto {
   material_id: number=0;
-  qty: number=0;
+  qty: number=0;  
+  supplier_type :string  = '';
+  owner_id :number = 0;
 }
 export class ConfirmOrderRequestDto {
   payment_type: string='نقدي';

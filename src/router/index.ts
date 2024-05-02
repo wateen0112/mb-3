@@ -4,7 +4,7 @@ import { setupLayouts } from 'virtual:generated-layouts';
 import { createRouter, createWebHistory } from 'vue-router';
 import routes from '~pages';
 
-const publicPages = ['login', 'forgetPassword', 'gotMail', 'resetPassword'];
+
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),

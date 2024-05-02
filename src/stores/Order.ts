@@ -6,11 +6,29 @@ const {GET , POST} = useApi();
 export const OrderStore  = defineStore('order',()=>{
     const addToCartDto  = ref<AddToCartRequestDto>(new AddToCartRequestDto())
     const confirmOrderDto  = ref<ConfirmOrderRequestDto>(new ConfirmOrderRequestDto())
+    const showCartErrorDialog  = ref(false)
+    const showSuccessDialog  = ref(false)
    const myOrdersResponseDto = ref<MyOrdersResponseDto>( new MyOrdersResponseDto())
     const  cartProductsResponseDto = ref<CartProductResponseDto>(new CartProductResponseDto())
 const  add_to_cart= async()=>{
     try {
-        const res =await POST (ORDER_API.add_to_cart,addToCartDto.value)
+ await get_cart_products ();
+ 
+ if(cartProductsResponseDto.value.data.length==0){
+    const res =await POST (ORDER_API.add_to_cart,addToCartDto.value)
+    showSuccessDialog.value = true
+ }
+else {
+    const type   = cartProductsResponseDto.value.data.office_id [0]? 'office': cartProductsResponseDto.value.data[0].online_market_id?'online_market':'store'
+    const owner_id   = type == 'office'? cartProductsResponseDto.value.data[0].online_market_id:'online_market'?cartProductsResponseDto.value.data[0].online_market_id:cartProductsResponseDto.value.data.store_id
+   if(type!==addToCartDto.value.supplier_type&&owner_id !==addToCartDto.value.owner_id){
+     showCartErrorDialog.value = true 
+   }
+   else {
+     const res =await POST (ORDER_API.add_to_cart,addToCartDto.value)
+     showSuccessDialog.value = true
+   }
+}
     } catch (error) {
         throw(error)
     }
@@ -91,6 +109,8 @@ const deleteOrder = async (order_id:string )=>{
         confirmOrderDto,
         cartProductsResponseDto,
         myOrdersResponseDto,
+        showCartErrorDialog,
+        showSuccessDialog,
         add_to_cart,
         get_my_orders,
         get_cart_products,

@@ -1,3 +1,4 @@
+import { OneSignalAppId } from '~config';
 import '@/@iconify/icons-bundle'
 import App from '@/App.vue'
 import '@/assets/fonts.scss'
@@ -7,6 +8,7 @@ import { loadFonts } from '@/plugins/webfontloader'
 import router from '@/router'
 import '@core/scss/template/index.scss'
 import '@styles/styles.scss'
+import OneSignal from 'onesignal';
 import { createPinia } from 'pinia'
 import { createApp } from 'vue'
 import VueToastificationPlugin from 'vue-toastification'

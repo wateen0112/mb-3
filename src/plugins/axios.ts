@@ -1,68 +1,66 @@
 import { useAuth } from '@/composables';
 import { useAppStore } from '@/stores/App';
-import type { Axios, AxiosError, AxiosHeaders } from 'axios';
-import axios, { type AxiosRequestConfig, type AxiosResponse } from 'axios';
+import axios, { AxiosRequestConfig, AxiosResponse, AxiosError } from 'axios';
 import { API_URL } from '~config';
 
 const errorHandler = async (error: AxiosError) => {
-  const { RefreshToken ,GetAccessToken} = useAuth();
+  const { RefreshToken, GetAccessToken } = useAuth();
+  const appStore = useAppStore();
 
-  useAppStore().$patch({ isLoading: false })
+  appStore.$patch({ isLoading: false });
 
-  const config: AxiosRequestConfig | undefined = error?.config
+  const config: AxiosRequestConfig | undefined = error?.config;
 
   if (error.response?.status === 401) {
     const accessToken = await GetAccessToken();
     if (config && config.headers) {
       config.headers.Authorization = `Bearer ${accessToken}`;
 
-      // return axios(config)
+      return axios(config);
     }
-
   }
 
-  return Promise.reject(error)
-}
+  return Promise.reject(error);
+};
 
-const requestHandler = (request: AxiosRequestConfig) => {
-  if (request.params && request.params.loading !== false)
-    useAppStore().$patch({ isLoading: true })
+const requestHandler = async (request: AxiosRequestConfig) => {
+  const appStore = useAppStore();
 
-  const { GetAccessToken } = useAuth()
+  if (request.params && request.params.loading !== false) {
+    appStore.$patch({ isLoading: true });
+  }
 
-  if (request.headers)
-    request.headers.Authorization = `Bearer ${GetAccessToken()}`
+  const { GetAccessToken } = useAuth();
 
-  return request
-}
+  if (request.headers) {
+    request.headers.Authorization = `Bearer ${await GetAccessToken()}`;
+  
+  }
+
+  return request;
+};
 
 const responseHandler = (response: AxiosResponse) => {
-  useAppStore().$patch({ isLoading: false })
-
-  return response
-}
-
+  const appStore = useAppStore();
+  appStore.$patch({ isLoading: false });
+  return response;
+};
+const accessToken =  localStorage.getItem('token')
 const axiosIns = axios.create({
   baseURL: API_URL,
-  headers: {
+  headers: {     
+         Authorization: `Bearer ${accessToken}`,
+    mode: 'no-cors',
+    'Content-Type': 'application/json',
+    xsrfCookieName: "XSRF-TOKEN",
+    xsrfHeaderName: "X-XSRF-TOKEN",
+    Accept: '*/*',
     'X-Requested-With': 'XMLHttpRequest',
-    
-    lang: useNavigatorLanguage().language.value },
+    'Access-Control-Allow-Origin': '*', // This may not be effective depending on server configuration
+  },
+});
 
-})
-
-axiosIns.interceptors.request.use(requestHandler as any)
-axiosIns.interceptors.response.use(responseHandler, errorHandler)
+axiosIns.interceptors.request.use(requestHandler);
+axiosIns.interceptors.response.use(responseHandler, errorHandler);
 
 export { axiosIns };
-
-// // const progressHandler = (progressEvent: any) => {
-// //     console.log('in progress', progressEvent);
-
-//     // const total = parseFloat(progressEvent.currentTarget.responseHeaders['Content-Length'])
-//     // const current = progressEvent.currentTarget.response.length
-
-//     // let percentCompleted = Math.floor(current / total * 100)
-
-// // }
-

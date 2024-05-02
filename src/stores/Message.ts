@@ -57,7 +57,8 @@ const get_chats = async()=>{
             authEndpoint:`${HOST_DOMAIN}/${MESSAGES_API.pusher_auth}`,
           auth:{
             headers : {
-                Authorization:`Bearer ${token}`
+                // Authorization:`Bearer ${token}`
+                // Authorization:`Bearer 142|gaJUpYhaAQQDeShhepvow8KgfJa5Hu1AS4BfS43C`
                 }
           },
         
