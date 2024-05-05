@@ -133,11 +133,10 @@ const get_delegators= async (query :Object)=>{
                 }
                 }
                  
-                const get_online_market= async (online_market_id:string,material_id:string='')=>{
+                const get_online_market= async (query:Object = {})=>{
                     try {
                         const res = await GET<SingleOnlineMarketResponse>(HOME_API.get_online_market,
-                            {   online_market_id : online_market_id
-                            , material_id :material_id})
+                            query)
                             singleOnlineMarketResponse.value = res.data;  
                     } catch (error) {
                         throw(error)

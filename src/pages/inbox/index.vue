@@ -7,6 +7,7 @@ const store = MessageStore();
 onMounted(async()=>{
     await store.get_chats()
 })
+const {getChatsResponseDto} = storeToRefs(store)
 </script>
 <template>
     <AllOrdersLayout
@@ -14,7 +15,7 @@ onMounted(async()=>{
     title="المحادثات"
     >
        <div class="flex  mt-8 justify-start items-start flex-no-wrap gap-3 flex-row flex-wrap">
-<ChatHeaderCard  v-for="item in 4" />
+<ChatHeaderCard  v-for="(item , index) in getChatsResponseDto.data"  :key="index"  :item="item" />
        </div>
     </AllOrdersLayout>
 </template>

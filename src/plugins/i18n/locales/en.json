@@ -44,7 +44,7 @@
   "location":"location"
 },
 "login":{
-  "welcome":"welcome to self care",
+  "welcome":"welcome to MedicalBox",
   "phone":"phone",
   "continue":"Continue",
   "emailSignin":"Sign-in by Email",
@@ -284,7 +284,7 @@
   "online":"online",
   "totalAmount":"Total expected amount ",
   "vat":"vat",
-  "scCut":"Self care cut ",
+  "scCut":"MedicalBox cut ",
   "walkIn":"walk in"
 },
 "contactUs":{

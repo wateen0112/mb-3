@@ -30,7 +30,7 @@ title="المتاجر الالكترونية"
     <OfficeCard 
     :img="item.profile_image_name" 
     :title="item.name"
-    v-for="item in onlineMarketsResponseDto.data" :route="`e_stores/${item.id}`" bannerTitle="متجر" />
+    v-for="item in onlineMarketsResponseDto.data" :route="`/e_stores/${item.id}`" bannerTitle="متجر" />
    </div>
 
 

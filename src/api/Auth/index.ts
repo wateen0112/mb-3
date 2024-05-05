@@ -4,5 +4,6 @@ export enum AUTH_API {
  RESET_PASSWORD='forget_password',
   SEND_OTP='send_otp',
   GET_USER_DATA='get_user_data',
-  UPDATE_USER_DATA='update_user_data'
+  UPDATE_USER_DATA='update_user_data',
+  LOGOUT='logout'
 }

@@ -33,12 +33,17 @@ const {getFileUrl} = useFile()
 <div class=" flex-col overflow-hidden pt-8 relative bg-[#33a1948e] rounded-2xl w-[120px] h-[120px] flex justify-center items-center">
    <div   
    
-   v-if="img" class="w-[50px] z-20  h-[50px] rounded-full overflow-hidden">
-    <img
+   class="w-[60px] h-[60px] rounded-full overflow-hidden">
+    <v-img
 
-    :src="getFileUrl(img)" alt="" class=" z-20 w-full h-full  object-cover" >
+    :src="getFileUrl(img)" alt="" class=" z-20 w-[60px] h-[60px]   object-cover" >
+  <template #error>
+    <img   :src="Avatar" alt="" class=" z-20 w-[60px] h-[60px] rounded-full" >
+  </template>
+ 
+  </v-img>
    </div>
-    <img  v-else  :src="Avatar" alt="" class=" z-20 w-[60px] h-[60px] rounded-full" >
+  
 <p  class="text-white"> {{ title.length>15 ? title.slice(0,15)+'..':title }} </p>
     <!-- absolute div -->
   

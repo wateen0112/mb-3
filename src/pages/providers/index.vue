@@ -6,6 +6,7 @@ import  NoData from '@/components/shared/NoData.vue'
 import { HomeStore } from '@/stores/Home';
 const loading = ref(true)  ; 
 const store = HomeStore()
+const name = ref('')
 const {suppliersResponseDto} = storeToRefs(store)
 const getContent = async()=>{
     try {
@@ -23,6 +24,14 @@ onMounted(async()=>{
 </script>
 <template>
     <AllOrdersLayout
+    v-model:search-value="name"
+    @search="async()=>{
+        loading=true ; 
+        await store.get_suppliers({
+            name :name
+        })
+        loading=false; 
+    }"
     title="الموردين"
     >
     <NoData   v-if="loading==false&&suppliersResponseDto.pagination.total==0"/>

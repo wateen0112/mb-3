@@ -10,7 +10,8 @@ export class ConfirmOrderRequestDto {
   payment_type: string='نقدي';
 
   online_market_id: string=''; 
-
+  store_id: string=''; 
+  office_id: string=''; 
 
 }
 export class CartProductResponseDto {

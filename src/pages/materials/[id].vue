@@ -30,10 +30,10 @@ const {singleOnlineMarketResponse} = storeToRefs(homeStore)
 const options = route.query.options??false;
 const {filtered_deficient_list_dto,filterDto,material}  = storeToRefs(store);
 const {getFileUrl} = useFile()
-const showDialog = ref(false )
+
 const router = useRouter()
 const orderStore = OrderStore();
-const{addToCartDto   } = storeToRefs(orderStore)
+const{addToCartDto ,showSuccessDialog ,showCartErrorDialog  } = storeToRefs(orderStore)
 onMounted(async()=>{
 try {
   
@@ -60,7 +60,7 @@ const addToCart = async()=>{
     
 await  orderStore.add_to_cart();
         addToCartLoading.value  = false  ;
-    showDialog.value = true    
+ 
     } catch (error) {
         addToCartLoading.value  = false  ;
        throw(error) 
@@ -72,11 +72,20 @@ await  orderStore.add_to_cart();
     <!-- {{ material }} -->
 <CustomDialog  
 
-v-model="showDialog"
-@close ="()=>{
+v-model="showSuccessDialog"
+@leave ="()=>{
     router.push('../../../content-management/cart')
+    showSuccessDialog=false
  }"
 status="success" content="تم الإضافة للسلة بنجاح" />
+<CustomDialog  
+
+v-model="showCartErrorDialog"
+@leave ="()=>{
+    router.push('../../../content-management/cart')
+    showCartErrorDialog=false
+ }"
+status="success" content="الرجاء تأكيد عمليات الشراء في السلة او إفراغها !" />
 <AllOrdersLayout
 title="تفاصيل المادة"
 :search="false"
@@ -134,6 +143,10 @@ class=" relative w-full pb-12 bg-secondary rounded-lg  min-h-[100px]  overflow-h
 <div class="flex justify-start items-start gap-3">
 <img   class="w-8" :src="DollarIcon" />
 <p> السعر :{{ material.price }}دينار عراقي</p>
+</div>
+<div v-if="material.price_in_points" class="flex justify-start items-start gap-3">
+<img   class="w-8" :src="DollarIcon" />
+<p>  السعر  بالنقاط:{{ material.price_in_points }} نقطة </p>
 </div>
 <div  v-if="material.notes" class="flex justify-start items-start gap-3">
 <img   class="w-8" :src="ClipboardIcon" />

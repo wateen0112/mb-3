@@ -1,4 +1,5 @@
 import { MESSAGES_API } from "@/api/Messages";
+import { GetChatsResponseDto, GetMessagesResponseDto, MessageItem } from "@/api/Messages/MessagesDto";
 import { useApi } from "@/composables";
 import Pusher from 'pusher-js';
 const {GET , POST }= useApi();
@@ -12,22 +13,31 @@ import  { API_URL, HOST_DOMAIN ,OneSignalAppId,GOOGLE_MAPS_API_KEY
         PUSHER_APP_CLUSTER
     }  from  '~config'
 export const MessageStore = defineStore('message',()=>{
-
+const getMessagesResponseDto = ref<GetMessagesResponseDto>(new GetMessagesResponseDto())
     const pusherLoggedIn = ref(false)
-const send_message = async()=>{
+    const   getChatsResponseDto = ref<GetChatsResponseDto>(new GetChatsResponseDto())
+const send_message = async(query :MessageItem =new MessageItem())=>{
 try {
-    const res = await POST(MESSAGES_API.send_message,{});
+
+    const res = await POST(MESSAGES_API.send_message,query ,{},{formData:true});
+    getMessagesResponseDto.value.data= [query,...getMessagesResponseDto.value.data]
+
 } catch (error) {
     throw(error)
 }
 }
 
 
-const get_messages = async(office_id:string)=>{
+const get_messages = async( query : Object  = {})=>{
     try {
-        const res = await GET(MESSAGES_API.get_messages,{
-            office_id:office_id
-        });
+        const res = await GET<GetMessagesResponseDto>(MESSAGES_API.get_messages+`?page=${getMessagesResponseDto.value.pagination.current_page}`,query);
+        getMessagesResponseDto.value.pagination= res.data.pagination ; 
+        getMessagesResponseDto.value.chat_id= res.data.chat_id ; 
+        getMessagesResponseDto.value.status= res.data.status ; 
+        getMessagesResponseDto.value.user_type= res.data.user_type ; 
+        getMessagesResponseDto.value.data= [...getMessagesResponseDto.value.data , ...res.data.data]
+
+       
     } catch (error) {
         throw(error)
     }
@@ -38,9 +48,8 @@ const get_messages = async(office_id:string)=>{
 const get_chats = async()=>{
     try {
         const office_id= localStorage.getItem('token')
-        const res = await GET(MESSAGES_API.get_chats,{
-            office_id:office_id
-        });
+        const res = await GET<GetChatsResponseDto>(MESSAGES_API.get_chats);
+        getChatsResponseDto.value  = res.data
     } catch (error) {
         throw(error)
     }
@@ -48,7 +57,7 @@ const get_chats = async()=>{
     
     const pusher_auth  = async(id:string)=>{
         let token  = localStorage.getItem('token');
-        console.log('from messages pusher auth ');
+  
         
      try {
         const pusher = new Pusher(PUSHER_APP_KEY, {
@@ -71,18 +80,21 @@ const get_chats = async()=>{
         pusherLoggedIn.value = true;
         console.log(pusherLoggedIn.value);
         
-  pusher.connection.bind('connected',()=>{
+  pusher.connection.bind('chat',()=>{
     console.log('connected !!!!');
     
   })
         
      } catch (error) {
+        console.log(error);
+        
       throw(error)  
      }
        
     }
 
     return {
+        getMessagesResponseDto,getChatsResponseDto,
         send_message  ,
         get_chats,
         get_messages,

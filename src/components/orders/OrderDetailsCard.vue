@@ -122,13 +122,17 @@ v-model="material.material.amount"
 <div class="flex justify-start items-center flex-col">
     <div   v-if="item.office" class="flex justify-start   rounded-lg   first-letter:items-center bg-primary max-w-[440px]">
         <div class="max-w-[150px] flex justify-center items-center w-[150px]">
-            <img  v-if="item.office.profile_image_name"  class="  w-[90px] h-[90px] rounded-full" :src="getFileUrl(item.office.profile_image_name)" alt="">
-            <img    class="  w-[90px] h-[90px] rounded-full" :src="Avatar" alt="">
+            <img  v-if="item.office"  class="  w-[90px] h-[90px] rounded-full" :src="getFileUrl(item.office.profile_image_name)" alt="">
+            <img  v-else-if="item.store"  class="  w-[90px] h-[90px] rounded-full" :src="getFileUrl(item.store.profile_image_name)" alt="">
+            <img   v-else-if="item.online_market"  class="  w-[90px] h-[90px] rounded-full" :src="getFileUrl(item.online_market.profile_image_name)" alt="">
+            <img  v-else  class="  w-[90px] h-[90px] rounded-full" :src="Avatar" alt="">
         </div>
         <div  class="w-full flex h-full justify-start items-start py-4  flex-col">
 <div class="flex">
 <img  class="ml-2 w-[20px] mt-[-15px]"   :src="UserIcon" />
-<p class="text-14">اسم المكتب :  {{ item.office.name }} </p>
+<p v-if="item.office" class="text-14">اسم المكتب :  {{ item.office.name }} </p>
+<p  v-else-if="item.store" class="text-14">اسم المتجر :  {{ item.store.name }} </p>
+<p    v-else-if="item.online_market" class="text-14">اسم المتجر :  {{ item.online_market.name }} </p>
   
 </div>
 <div class="flex   mt-[-5px] ">
@@ -138,7 +142,9 @@ v-model="material.material.amount"
 </div>
 <div  v-if="item.office.phone_number " class="flex  mt-[-5px]  ">
 <img  class="ml-2 w-[20px] mt-[-15px]"   :src="CallIcon" />
-    <p class="text-14"> رقم الهاتف :  {{ item.office.phone_number }} </p>
+    <p v-if="item.office" class="text-14"> رقم الهاتف :  {{ item.office.phone_number }} </p>
+    <p v-if="item.store" class="text-14"> رقم الهاتف :  {{ item.store.phone_number }} </p>
+    <p v-if="item.online_market" class="text-14"> رقم الهاتف :  {{ item.online_market.phone_number }} </p>
   
 </div>
 
@@ -217,7 +223,7 @@ v-model="material.material.amount"
   
 </div>
 
-<div class="flex  mt-[-5px]  ">
+<div class="flex  mt-[-5px]  "  v-if="item.delegation">
 <img  class="ml-2 w-[20px] mt-[-15px]"   :src="CheckedIcon" />
     <p class="text-14"> المندوب  :     {{  item.delegation.delegation_name}}  </p>
   

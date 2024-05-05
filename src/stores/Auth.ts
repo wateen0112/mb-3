@@ -25,7 +25,7 @@ const profileResponseDto = ref<ProfileDataResponseDto>(new ProfileDataResponseDt
 async function login() {
   authDto.value.noti_id=OneSignalAppId
   try {
-    const res = await  POST(AUTH_API.LOGIN,authDto.value  , {error:'dialog'})
+    const res = await  POST(AUTH_API.LOGIN,authDto.value  , {error:true})
 
  
 if(res.response){
@@ -47,9 +47,9 @@ else {
 
 } catch (error) {
     localStorage.clear()
+  
 throw(error)
    
-    // alert(error.status)
     
 
   }
@@ -124,9 +124,14 @@ editDto = {
   }
 }
 const logout = async()=>{
+try {
+  const res =  POST(AUTH_API.LOGOUT,{});
   localStorage.clear();
   const router = useRouter()
   router.push('/login')
+} catch (error) {
+  throw(error)
+}
 }
 const resetPassword = async()=>{
   resetPasswordDto.value.phone_number=sendOtpDto.value.phone_number

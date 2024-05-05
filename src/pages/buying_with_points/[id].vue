@@ -5,6 +5,7 @@ import  Loading from '@/components/shared/Loading.vue'
 import  NoData from '@/components/shared/NoData.vue'
 import { HomeStore } from '@/stores/Home';
 import { PointsOrderStore } from '@/stores/PointsOrder';
+import { MaterialStore } from '@/stores/Material';
 
 const homeStore = HomeStore();
 const pointStore = PointsOrderStore()
@@ -16,7 +17,7 @@ const getContent =async ()=>{
    try {
    await  homeStore.get_office_by_id(id)
 
-   await  pointStore.buy_with_points({office_id:id
+   await  MaterialStore().material_search({office_id:id
     }) 
       loading.value = false ; 
    } catch (error) {

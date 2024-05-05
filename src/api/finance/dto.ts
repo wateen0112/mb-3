@@ -4,5 +4,5 @@ export class FinaceDto {
   orders:OrderDto[]=[]
   total:number=0
   vat:number =0
-  selfcare_cut:number=0
+  MedicalBox_cut:number=0
 }

@@ -17,23 +17,24 @@ import { useFile } from '@/composables';
 import { HomeStore } from '@/stores/Home';
 import  CustomDialog from '@/components/shared/CustomDialog.vue'
 import { OrderStore } from '@/stores/Order';
+import { PointsOrderStore } from '@/stores/PointsOrder';
 
 const store = MaterialStore()
 const homeStore = HomeStore();
-
+const showSuccessDialog =ref(false)
 const qty = ref(1)
 const loading = ref(true)
 const addToCartLoading = ref(false)
 const route = useRoute();
 const id = route.params.id; 
-const {singleOnlineMarketResponse,office} = storeToRefs(homeStore)
+const {singleOnlineMarketResponse} = storeToRefs(homeStore)
 const options = route.query.options??false;
 const {filtered_deficient_list_dto,filterDto,material}  = storeToRefs(store);
 const {getFileUrl} = useFile()
 
 const router = useRouter()
-const orderStore = OrderStore();
-const{addToCartDto  ,showSuccessDialog,showCartErrorDialog } = storeToRefs(orderStore)
+const orderStore = PointsOrderStore();
+
 onMounted(async()=>{
 try {
   
@@ -41,10 +42,9 @@ try {
 await homeStore.get_material_shapes()
     await store . get_material_by_id (id );
  if (material.value.supplier_type=='online_market'){
-    await homeStore.get_online_market(material.value.online_market_id)
- }
- else   if (material.value.supplier_type=='office'){
-    await homeStore.get_office_by_id(material.value.office_id)
+    await homeStore.get_online_market( {
+        online_market_id : material.value.online_market_id
+    })
  }
     loading.value = false ;
 } catch (error) {
@@ -53,14 +53,22 @@ await homeStore.get_material_shapes()
 }
 })
 const addToCart = async()=>{
+   
     try {
-        addToCartLoading.value  = true  ;
-        addToCartDto.value.material_id =material.value.id 
-        addToCartDto.value.qty =qty.value 
-    
-await  orderStore.add_to_cart();
+        addToCartLoading.value  =true;
+      
+        
+    const key = material.value.supplier_type=='office' ?'office_id':material.value.supplier_type=='store'?'store'  :'online_market'
+await  orderStore.add_to_points_cart( {
+    material_id :id  ,
+    supplier_type :material.value.supplier_type , 
+    key :material.value.office_id ? material.value.office_id :material.value.store_id ?material.value.office_id:material.value.online_market_id??0
+   , qty:qty.value
+});
+showSuccessDialog.value = true
+
         addToCartLoading.value  = false  ;
-    showSuccessDialog.value = true    
+ 
     } catch (error) {
         addToCartLoading.value  = false  ;
        throw(error) 
@@ -73,16 +81,18 @@ await  orderStore.add_to_cart();
 <CustomDialog  
 
 v-model="showSuccessDialog"
-@close ="()=>{
+@leave ="()=>{
     router.push('../../../content-management/cart')
+    showSuccessDialog=false
  }"
 status="success" content="تم الإضافة للسلة بنجاح" />
+
 <AllOrdersLayout
 title="تفاصيل المادة"
 :search="false"
 >
-
 <Loading    v-if="loading ==true" />
+
 <div
 v-if="loading == false "
 class=" relative w-full pb-12 bg-secondary rounded-lg  min-h-[100px]  overflow-hidden">
@@ -90,15 +100,10 @@ class=" relative w-full pb-12 bg-secondary rounded-lg  min-h-[100px]  overflow-h
     <div class="p-5  flex justify-between items-start">
 <!-- container  1-->
     <div >
-        <div
-        v-if="material.supplier_type=='online_market'"
-        class="flex justify-start items-start gap-3">
+
+<div class="flex justify-start items-start gap-3">
 <img   class="w-8" :src="ShopIcon" />
 <p>اسم المتجر :{{ singleOnlineMarketResponse.market.name }}</p>
-</div>
-<div    v-if="material.supplier_type=='office'" class="flex justify-start items-start gap-3">
-<img   class="w-8" :src="ShopIcon" />
-<p>اسم المكتب :{{office.name }}</p>
 </div>
 
 <div class="flex justify-start items-start gap-3">
@@ -125,7 +130,7 @@ class=" relative w-full pb-12 bg-secondary rounded-lg  min-h-[100px]  overflow-h
 <p>الشركة  :{{material.company }}</p>
 </div>
 
-<div  v-if="material.packing_type" class="flex justify-start items-start gap-3">
+<div  v-if="material.packing_type.length>0" class="flex justify-start items-start gap-3">
 <img   class="w-8" :src="BoxIcon" />
 <p>التعبئة  : </p>
 <p  v-for="i in material.packing_type">{{  i.name }}قطعة   *{{  i.amount}} علية</p>
@@ -138,7 +143,11 @@ class=" relative w-full pb-12 bg-secondary rounded-lg  min-h-[100px]  overflow-h
 
 <div class="flex justify-start items-start gap-3">
 <img   class="w-8" :src="DollarIcon" />
-<p> السعر :{{material.price_in_points}} نقطة</p>
+<p> السعر :{{ material.price }}دينار عراقي</p>
+</div>
+<div v-if="material.price_in_points" class="flex justify-start items-start gap-3">
+<img   class="w-8" :src="DollarIcon" />
+<p>  السعر  بالنقاط:{{ material.price_in_points }} نقطة </p>
 </div>
 <div  v-if="material.notes" class="flex justify-start items-start gap-3">
 <img   class="w-8" :src="ClipboardIcon" />
@@ -174,7 +183,7 @@ class=" relative w-full pb-12 bg-secondary rounded-lg  min-h-[100px]  overflow-h
 <div class=" px-8 pt-4 w-full rounded-lg justify-between flex items-center h-[60px] bg-surface">
 <div class="flex justify-start gap-3">
     <VChip color="primary" variant="elevated" >{{  qty}}</VChip>
-<p class="text-18"> {{ material.price_in_points}}  نقطة </p>
+<p class="text-18"> {{ material.price_in_points}} نقطة  </p>
 </div>
 
 <VBtn 
@@ -182,7 +191,7 @@ class=" relative w-full pb-12 bg-secondary rounded-lg  min-h-[100px]  overflow-h
 :loading = "addToCartLoading"
 class="mt-[-16px] rounded-lg" >
 <span class="text-surface">
-
+ 
     السلة
 </span>
 
@@ -191,7 +200,6 @@ class="mt-[-16px] rounded-lg" >
 
 </div>
 </div>
-
 <div v-if="loading == false " class=" z-30 flex justify-center gap-5 items-center w-full h-12 mt-[-25px]">
 
 <router-link class="bg-[#9095A5] z-30  px-8 py-3 rounded-full" to=""><span class="text-white">تواصل مع  المكتب</span></router-link>

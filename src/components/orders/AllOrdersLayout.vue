@@ -1,6 +1,7 @@
 <script  setup lang="ts">
 import SearchIcon from '@/assets/images/svg/search.svg'
 import { HomeStore } from '@/stores/Home'
+import ToolBar from '../shared/ToolBar.vue';
 const store = HomeStore()
 const props = defineProps({
   title:{
@@ -167,19 +168,23 @@ v-model="query.store_id"
 </div>
 
   </v-dialog>
-<div class="bg-surface relative rounded-md shadow-sm px-4 pb-2 h-auto ">
+<ToolBar/>
+<div class="bg-surface mt-2 relative rounded-md shadow-sm pt-8 px-4 pb-2 h-auto ">
   
-  <div class="flex justify-start items-center">
+  <div class="flex justify-start items-center"   
+>
      <VIcon   
-     
      @click="()=>{
       
       router.go(-1);
      }"
-     color="text-color"   class="ml-3" size="28">mdi-chevron-right</VIcon>
+     color="text-color"   class="ml-3 cursor-pointer " size="28">mdi-chevron-right</VIcon>
     <h1 class="my-2 text-text-color">{{ title }}</h1>
     
-    <slot name="custom-title"></slot>
+    <slot      @click="()=>{
+      
+      router.go(-1);
+     }" name="custom-title"></slot>
     
   </div>
 

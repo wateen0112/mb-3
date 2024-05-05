@@ -14,7 +14,7 @@ const emit= defineEmits(['leave'])
   <img :src="type=='success'?DoneImg:EmptyState"
   
   alt="">
-  <h2>{{  content}}  </h2>
+  <h2 class="px-2 text-center">{{  content}}  </h2>
 </div>
   </v-dialog>
 

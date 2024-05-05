@@ -66,7 +66,7 @@ const props = defineProps({
   <div>
 <router-link  v-if="showMapBtn" class=" mt-[-12px] bg-surface pt-3  max-h-[30px] rounded-2xl px-4 flex justify-center items-center" to="">
 
-<p class="text-12 text-primary"> عرض الخريطة</p>
+    <router-link   to="../../../map"> <p>الموقع على الخريطة</p></router-link>
 <img class="mt-[-15px] mr-1"  :src="PinAltFill" />
 </router-link>
 

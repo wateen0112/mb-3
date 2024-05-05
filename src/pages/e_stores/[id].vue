@@ -22,7 +22,9 @@ const store = HomeStore ();
 onMounted(async()=>{
 try {
 loading.value = true 
-await  store.get_online_market(id);
+await  store.get_online_market({
+    online_market_id :id
+});
 loading.value = false
 } catch (error) {
     loading.value = false
@@ -67,7 +69,11 @@ title="تفاصيل المتجر "
     <div class="  h-[70px] border-top  flex justify-start lg:mr-[150px] items-center gap-5 w=full lg:w-[60%]">
 
 
-<router-link class="bg-surface pt-3  max-h-[30px] rounded-2xl px-4 flex justify-center items-center"  to="">
+<router-link class="bg-surface pt-3  max-h-[30px] rounded-2xl px-4 flex justify-center items-center"  :to="{
+path:'../../../inbox/'+singleOnlineMarketResponse.market.id ,query:{
+type:'online_market'
+}
+}">
     <p class="text-primary text-12"> التواصل مع المتجر  </p>
     <img   :src="ChatIcon"  class=" mx-1 mt-[-15px]"  />
 

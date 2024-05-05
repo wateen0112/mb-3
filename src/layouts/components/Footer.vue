@@ -5,17 +5,17 @@
       &copy;
       {{ new Date().getFullYear() }}
       <a
-        href="https://www.facebook.com/Elkood?mibextid=ZbWKwL"
+        href=""
         target="_blank"
         rel="noopener noreferrer"
         class="text-primary ms-1"
-        >wateen aswad </a
+        >Iraq techno </a
       >
       <span>Powered By</span>
     </span>
     <!-- 👉 Footer: right content -->
     <span class="d-md-flex gap-x-2 d-none">
-      <a class="text-primary" href="" target="noopener noreferrer">Self Care  </a>
+      <a class="text-primary" href="" target="noopener noreferrer">MedicalBox  </a>
       <span>All Rights Reserved</span>
     </span>
   </div>

@@ -19,9 +19,12 @@ const materialStore = MaterialStore();
 const {materialSearchResponseDto} = storeToRefs(materialStore)
 onMounted(async()=>{
     await store.get_governorate()
-    await PointsOrderStore().get_points_orders({
-      supplier_type : "office" ,
-        office_id : props.id
+    // await PointsOrderStore().get_points_orders({
+    //   supplier_type : "office" ,
+    //     office_id : props.id
+    // })
+    materialSearchResponseDto.value.data =     materialSearchResponseDto.value.data.filter (i=>{
+return i.buy_with_points=='on'
     })
     loading.value=false
 
@@ -49,9 +52,15 @@ const {getFileUrl} = useFile()
     <div class="bg-primary rounded-lg">
   
   <div class="bg-primary rounded-lg w-full pb-0  min-h-[120px]  flex justify-start items-center gap-3 p-3">
-<div class="flex justify-center items-center w-[120px] h-[120px]">
-  <img   v-if="item.profile_image_name" :src="getFileUrl(item.profile_image_name)"    class="w-[70px] h-[70px] rounded-full" />
-  <img   v-else :src="Avatar"    class="w-[70px] h-[70px] rounded-full" />
+<div class="flex justify-center items-center w-[80px] h-[120px]">
+  <v-img  :src="getFileUrl(item.profile_image_name)"    class="w-[70px] h-[70px] rounded-full" >
+  
+  <template #error> 
+    <img   :src="Avatar"    class="w-[70px] h-[70px] rounded-full" />
+
+  </template>
+  </v-img>
+ 
 </div>
 <div class="flex justify-start  flex-col h-full items-start">
 <p class="text-18">{{  item.name}}   </p>
@@ -87,7 +96,7 @@ const {getFileUrl} = useFile()
 
 </div>
 <div class="my-flex my-8">
-<ProductCardSmall     :route="'../../../buying_with_points/materials/'+item.id"  v-for="(item, key) in materialSearchResponseDto.data" 
+<ProductCardSmall  :inPoints="true"   :route="'../../../buying_with_points/materials/'+item.id"  v-for="(item, key) in materialSearchResponseDto.data" 
 :key="key"
 :item="item"
 />

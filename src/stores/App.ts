@@ -4,6 +4,8 @@ export const useAppStore = defineStore('App', () => {
   const inputLang = ref('')
 const showDialog   = ref(false)
 const dialogContent = ref('')
+const showToolTip = ref(false)
+
   const PageMeta = ref<PageMeta>({
     title: '',
     icon: '',
@@ -26,7 +28,7 @@ const dialogContent = ref('')
       // notificationStore.GetUnRead(),
     ])
 
-  return { PageMeta, SetPageMeta, isLoading, startupCalls, inputLang,showDialog, 
+  return { PageMeta, showToolTip,SetPageMeta, isLoading, startupCalls, inputLang,showDialog, 
     dialogContent
   }
 })

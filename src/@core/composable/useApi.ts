@@ -5,7 +5,6 @@ import Swal from 'sweetalert2';
 import { useToast } from 'vue-toastification';
 import { useRouter } from 'vue-router';
 import { useAppStore } from '@/stores/App';
-
 interface NotificationsType {
   error?: string | boolean;
   confirm?: SweetAlertOptions | boolean;
@@ -113,12 +112,14 @@ export const useApi = () => {
       }
       return response;
     } catch (error) {
-      console.log(error);
-    
+ 
+
       if (error.response && error.response.status !== 401) {
-        if (notifications.error === true && error.response.data && error.response.data.error) {
+        if (notifications.error === true && error.response.data ) {
+
+          
           toast.error(error.response.data.error.message);
-          handleErrorMessage(error.response);
+          // handleErrorMessage(error.response);
         }
       } else if (error.response && error.response.status === 401) {
         localStorage.clear();

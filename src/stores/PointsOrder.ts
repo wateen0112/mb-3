@@ -1,17 +1,18 @@
 import { POINTS_ORDER_API } from "@/api/PointsOrder";
-import { AddToCartRequestDto ,ConfirmOrderRequestDto } from "@/api/Order/OrderDto";
+import { AddToCartRequestDto ,CartProductResponseDto,ConfirmOrderRequestDto } from "@/api/Order/OrderDto";
 
 import { useApi } from "@/composables";
+import { ORDER_API } from "@/api/Order";
 
 const {GET , POST} = useApi();
 export const PointsOrderStore  = defineStore('points_order',()=>{
     const addToCartPointsDto  = ref<AddToCartRequestDto>()
-    const confirmOrderDto  = ref<ConfirmOrderRequestDto>()
+    const confirmPointsOrderDto  = ref<ConfirmOrderRequestDto>(new ConfirmOrderRequestDto() )
     const totalPoints = ref(0)
-
-const  add_to_points_cart= async()=>{
+    const  cartPointsProductsResponseDto = ref<CartProductResponseDto> (new CartProductResponseDto())
+const  add_to_points_cart= async(query:Object = {})=>{
     try {
-        const res =await POST (POINTS_ORDER_API.add_to_points_cart,addToCartPointsDto.value)
+        const res =await POST (POINTS_ORDER_API.add_to_points_cart,query)
     } catch (error) {
         throw(error)
     }
@@ -27,18 +28,28 @@ const  remove_from_points_cart= async(material_id:string)=>{
         throw(error)
     }
 }
+const  get_cart_products= async()=>{
+    try {
+        const res =await GET <CartProductResponseDto>(ORDER_API.get_cart_products, {points:true})
+        cartPointsProductsResponseDto.value  = res.data
+    } catch (error) {
+        throw(error)
+    }
+}
 
 
 const  empty_points_cart= async()=>{
     try {
         const res =await POST (POINTS_ORDER_API.empty_points_cart,{})
+    await get_cart_products()
     } catch (error) {
         throw(error)
     }
 }
 const  confirm_points_order= async()=>{
     try {
-        const res =await POST (POINTS_ORDER_API.confirm_points_order,confirmOrderDto.value)
+        const res =await POST (POINTS_ORDER_API.confirm_points_order,confirmPointsOrderDto.value )
+    await get_cart_products()
     } catch (error) {
         throw(error)
     }
@@ -82,7 +93,10 @@ const get_points_details =async ()=>
 
     return {
         addToCartPointsDto,
+        confirmPointsOrderDto,
         totalPoints,
+        cartPointsProductsResponseDto,
+        get_cart_products,
         get_points,
         get_points_details,
         buy_with_points,

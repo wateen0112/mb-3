@@ -6,8 +6,11 @@ import Loading from '@/components/shared/Loading.vue';
 import { useAuthorization } from '@/stores/Auth';
 import { useFile } from '@/composables';
 import { TabDto } from '@/api/Home/HomeDto';
+import ToolBar from '@/components/shared/ToolBar.vue';
+import { useAppStore } from '@/stores/App';
 const {getFileUrl} = useFile()
-const matchImage = (nn:string='')=>{
+const {showToolTip} = storeToRefs(useAppStore())
+const matchImage =  (nn:string='')=>{
  return homeResponseDto.value.tabs.filter(item=>item.name==nn
 )[0]}
 const store = HomeStore()
@@ -21,7 +24,7 @@ const mainRoutes = computed(()=>{
 
   {
     id:2,
-    title :' حسابات',
+    title :'الحسابات',
     route:'account',  
  
     
@@ -124,11 +127,14 @@ const matchData = (id:number)=>{
 }
 </script>
 <template>
-  <div class="flex w-full flex-row flex-wrap justify-start items-center gap-x-5 ">
+  <ToolBar/>
+  <div class="flex w-full  pt-[50px] flex-row flex-wrap justify-start items-center gap-x-5 ">
 
 <Loading  v-if="loading==true" />
-<div  v-else v-for="(item, i) in  homeResponseDto.tabs" :key="i">
-  <router-link   :to="matchData(item.id)?.route??''"    >
+
+<div  v-else   v-for="(item, i) in  homeResponseDto.tabs" :key="i"   class="cursor-pointer"  @click ="()=>{
+router.push(matchData(item.id)?.route??'')
+}"   >
 <div  class="flex justify-center items-center flex-col ">
   <img v-if="item.image"   class="w-[90px] h-[60px] rounded-lg"  :src="getFileUrl(item.image)" />
 
@@ -140,7 +146,13 @@ const matchData = (id:number)=>{
   </p>
 </div>
 
- </router-link>
 </div>
+
   </div>
 </template>
+<route lang="yaml">
+  meta:
+    layout: default
+    action: read
+ 
+  </route>

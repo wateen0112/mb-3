@@ -23,50 +23,32 @@ const { width: windowWidth } = useWindowSize()
     :nav-items="navItems"
   >
     <!-- 👉 navbar -->
-    <template #navbar="{ toggleVerticalOverlayNavActive }">
-      <div class="d-flex h-100 align-center">
-        <VBtn
-          v-if="isLessThanOverlayNavBreakpoint(windowWidth)"
-          icon
-          variant="flat"
-          color="primary"
-          class="rounded-lg shadow-lg"
-          size="large"
-          @click="toggleVerticalOverlayNavActive(true)"
-        >
-          <VIcon
-            icon="tabler-menu-2"
-            size="24"
-          />
-        </VBtn>
-
-     
-        <VSpacer />
-
-    
-        <VSpacer />
-      
-   
-        
-      </div>
-    </template>
-
+  
     <!-- 👉 Pages -->
-    <RouterView v-slot="{ Component }">
+
+  <RouterView v-slot="{ Component }">
       <Transition
         :name="appRouteTransition"
         mode="out-in"
       >
+      <div class=" mt-[-50px] min-h-[100vh]">
         <Component :is="Component" />
+      </div>
+
       </Transition>
     </RouterView>
 
     <!-- 👉 Footer -->
-    <template #footer>
+    <!-- <template #footer>
       <Footer />
-    </template>
+    </template> -->
 
     <!-- 👉 Customizer -->
     <!-- <TheCustomizer /> -->
   </VerticalNavLayout>
 </template>
+<style>
+.navbar-content-container {
+  display:none  !important;
+}
+</style>

@@ -43,8 +43,10 @@ const qty = ref(1)
         <p  class="text-text-color text-12 "> {{item.trade_name  }}   </p>
 <div class="flex justify-between items-center w-full" >
   
-  <p  v-if="item.material"  class="text-text-color mt-[-12px] text-12  font-semibold">  د.ع  {{item.material.price}} </p>
-  <p v-if="item.price"  class="text-text-color mt-[-12px] text-12  font-semibold">  د.ع {{item.price}} </p>
+  <p  v-if="item.material&&inPoints==false"  class="text-text-color mt-[-12px] text-12  font-semibold">  د.ع  {{item.material.price}} </p>
+  <p  v-if="item.material&&inPoints"  class="text-text-color mt-[-12px] text-12  font-semibold">  {{item.material.price_in_points}}  نقطة</p>
+  <p v-if="item.price&&inPoints==false"  class="text-text-color mt-[-12px] text-12  font-semibold">  د.ع {{item.price}} </p>
+  <p v-if="item.price&&inPoints"  class="text-text-color mt-[-12px] text-12  font-semibold">  {{item.price_in_points}}  نقطة</p>
   <p  v-if="item.amount" class="text-10 text-left mr-8 font-light flex ">  {{ item.amount }} {{ item.amount >10?'قطعة':'قطع' }}</p>
   <p   v-if="item.free_qty" class="text-10 text-left mr-8 font-light flex ">  {{ item.free_qty }} {{ item.free_qty >10?'قطعة':'قطع' }}</p>
 </div>

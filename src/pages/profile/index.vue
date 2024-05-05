@@ -90,7 +90,7 @@ showDialog.value = true
 <div class="col-span-2   flex-wrap flex md:justify-evenly items-center">
 
 <div>    <VLabel class="w-full text-center flex justify-center mb-2">صورة بروفايل </VLabel>
-    <div  class=" w-[250px]">
+    <div  class=" w-[250px] mx-8">
 <VFileInput
 accept=".png,.jpg,.svg"
 @click:clear="profile_image_preview=''"
@@ -111,7 +111,7 @@ v-model="profile_image_file" />
 
 </div></div>
 <div class="flex justify-center items-center flex-col">    <VLabel class="w-full text-center flex justify-center mb-2">صورة عن كتاب فتح للجمهور  </VLabel>
-    <div class="w-[250px]">
+    <div class="w-[250px] mx-8">
     <VFileInput 
     accept=".png,.jpg,.svg"
     @click:clear="book_image_preview=''"
@@ -138,7 +138,7 @@ v-model="profile_image_file" />
 </div></div>
 
 <div>    <VLabel class="w-full text-center flex justify-center mb-2">صورة عن الشهادة </VLabel>
-    <div class="w-[250px]">
+    <div class="w-[250px] mx-8">
     <VFileInput
     accept=".png,.jpg,.svg"
     @click:clear="license_image_preview=''"
@@ -161,7 +161,7 @@ v-model="profile_image_file" />
 
 </div></div>
 <div>    <VLabel class="w-full text-center flex justify-center mb-2">صورة المخبر </VLabel>
-    <div class="w-[250px]">
+    <div class="w-[250px] mx-8">
     <VFileInput 
     accept=".png,.jpg,.svg"
     @click:clear="lab_image_preview=''"
@@ -274,13 +274,10 @@ v-model="profileResponseDto.data.password"
 </div>
     </VForm>
     <h2>الموقع على الخريطة</h2>
-<div class="w-full flex justify-center items-center">
+<div class="w-full flex justify-center h-[300px]  items-center">
     <LocationPicker 
-    :default-location="{
-        lat :profileResponseDto.data.latitude,
-        lng : profileResponseDto.data.longitude
-    }"
-    :api-key="GOOGLE_MAPS_API_KEY"  />
+
+      />
 </div>
     </AllOrdersLayout>
     </div>

@@ -49,7 +49,16 @@ return url;
   throw(error)
 }
  }
-  
+ const createSinglePreview= (image:File)=>{
+  try {
+    
+  const url  =     URL.createObjectURL(image)
+  return url; 
+  } catch (error) {
+    throw(error)
+  }
+   }
+    
   const getFileExt = (filePath = ''): string => {
     const ext = filePath.split('.').pop()
     if (ext && typeof (ext) == 'string')
@@ -135,6 +144,7 @@ return url;
     getFileExt,
     getFileType,
     createPreview,
+    createSinglePreview,
     openFileWindow,
     EXCEL_EXTENTIONS,
     IMAGE_EXTENTIONS,

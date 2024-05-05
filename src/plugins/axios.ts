@@ -12,12 +12,9 @@ const errorHandler = async (error: AxiosError) => {
   const config: AxiosRequestConfig | undefined = error?.config;
 
   if (error.response?.status === 401) {
-    const accessToken = await GetAccessToken();
-    if (config && config.headers) {
-      config.headers.Authorization = `Bearer ${accessToken}`;
-
-      return axios(config);
-    }
+  
+   localStorage.clear();
+   window.location.href='/login'
   }
 
   return Promise.reject(error);
