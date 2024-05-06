@@ -14,6 +14,7 @@ const {getChatsResponseDto} = storeToRefs(store)
     
     title="المحادثات"
     >
+
        <div class="flex  mt-8 justify-start items-start flex-no-wrap gap-3 flex-row flex-wrap">
 <ChatHeaderCard  v-for="(item , index) in getChatsResponseDto.data"  :key="index"  :item="item" />
        </div>

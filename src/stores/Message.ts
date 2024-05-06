@@ -80,11 +80,18 @@ const get_chats = async()=>{
         pusherLoggedIn.value = true;
         console.log(pusherLoggedIn.value);
         
-  pusher.connection.bind('chat',()=>{
+  pusher.connection.bind('connected',()=>{
     console.log('connected !!!!');
     
   })
-        
+ const channel =  pusher.subscribe('chat-1').trigger('client-event-1',{
+    message:'hi'
+ });
+
+  pusher.connection.bind('chat',(data:any)=>{
+    console.log(data);
+    
+  })  
      } catch (error) {
         console.log(error);
         

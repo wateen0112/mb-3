@@ -53,7 +53,8 @@ await  store.get_messages({
             case 'office':{
 await  homeStore.get_office_by_id (id)
 await  store.get_messages({
-    office_id : id  
+    office_id : id   ,
+    online_market_id : null
 })
             }
             break; 

@@ -140,8 +140,15 @@ class="mt-[-16px] rounded-lg" >
 </div>
 <div  v-if="true" class=" absolute mt-[20px] flex justify-center gap-5  w-[400px] h-12 ">
 
-<router-link class="bg-[#9095A5] text-12 px-6 py-3 rounded-full" to=""><span class="text-white"> منضم  </span></router-link>
-<router-link class="bg-[#9095A5] text-12 px-5 py-3 rounded-full" to=""><span class="text-white">تواصل مع    المكتب</span></router-link>
+<!-- <router-link class="bg-[#9095A5] text-12 px-6 py-3 rounded-full" to=""><span class="text-white"> منضم  </span></router-link> -->
+<router-link class="bg-[#9095A5] text-12 px-5 py-3 rounded-full" 
+
+:to="{
+    path:'../../../inbox/'+item.id  ,
+  query :{
+    type:'office'
+  }
+}"><span class="text-white">تواصل مع    المكتب</span></router-link>
 
 </div>
 </div>

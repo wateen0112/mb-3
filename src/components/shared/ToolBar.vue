@@ -60,7 +60,7 @@ max-width="50"
     <template v-slot:placeholder>
       <div class="rounded-full  w-[50px] h-[50px] flex justify-center items-center bg-[#eee]">  <v-img
 
-class="rounded-full  w-[30px] h-[30px]" 
+class="rounded-full  max-w-[30px] max-h-[30px]" 
 height="50"
 max-width="50"
 :src="Avatar1"
@@ -82,7 +82,7 @@ max-width="50"
     <template v-slot:error>
       <div class="rounded-full  w-[50px] h-[50px] flex justify-center items-center bg-[#eee]">  <v-img
 
-class="rounded-full  w-[30px] h-[30px]" 
+        class="rounded-full  max-w-[30px] max-h-[30px]" 
 height="50"
 max-width="50"
 :src="Avatar1"
